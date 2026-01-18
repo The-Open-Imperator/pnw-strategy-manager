@@ -11,12 +11,12 @@
 
 ## Getting started
 
-# git clone
+### git clone
 
-# venv
+### venv
 
-# dependencies
+### dependencies
 
-# start
+### start
 
 
