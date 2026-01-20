@@ -12,11 +12,25 @@
 ## Getting started
 
 ### git clone
+Replace <repository> with the link you get from the green Code button.
+```
+git clone <repository>
+```
 
-### venv
+### Venv
+Change directory into pnw-strategy-manager. Create a virtual environment and load it.
+```
+python -m venv .venv
+source .venv/bin/activate
+```
+### Dependencies
+Install dependencies.
+```
+pip install -r requirements.txt
+```
 
-### dependencies
-
-### start
-
-
+### Start
+Use this command to start the strategy manager, after leaving the virtual environment or restarting the console the source command has to be re-run.
+```
+python3 main.py
+```
