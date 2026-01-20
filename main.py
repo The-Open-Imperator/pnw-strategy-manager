@@ -1,14 +1,9 @@
-from objects import pp
-from dataflow import get_nations_data, get_wars_data
-
-class nation:
-    def __init__(self, nationID):
-        self.nationID = nationID
-
-
-    def update():
-        pass
-
+from dataflow import get_nations_data, get_wars_data, extract_nationSet
 
 if __name__ == "__main__":
-    print(get_wars_data({4221}))
+    allianceSet = {4221}
+    wars = get_wars_data(allianceSet)
+    
+    nationSet = extract_nationSet(wars)
+    nations = get_nations_data(nationSet)
+
