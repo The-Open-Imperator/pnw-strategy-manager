@@ -11,6 +11,8 @@ nationsQuery= """{nations(id: NATIONS)
     {
       id
       nation_name
+      discord
+      discord_id
       alliance { name }
       score
       num_cities
@@ -61,3 +63,26 @@ def extract_nationSet(warList) -> set:
         nationSet.add(int(war["att_id"]))
         nationSet.add(int(war["def_id"]))
     return nationSet
+
+def nations_to_dict(nationList):
+    d = dict()
+
+    for nation in nationList:
+        d[nation["id"]] = nation
+
+    return d
+
+
+def init_wars_nations_from_allianceSet(allianceSet: set) -> (list, dict):
+    wars = get_wars_data(allianceSet)
+    nations = get_nations_data(extract_nationSet(wars))
+    nations = nations_to_dict(nations)
+
+    return (wars, nations)
+
+
+if __name__=="__main__":
+    allianceSet = {4221}
+    wars, nations = init_wars_nations_from_allianceSet(allianceSet)
+
+    print(nations)
