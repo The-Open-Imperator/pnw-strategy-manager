@@ -32,6 +32,7 @@ warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 200)
     data
     {
       id
+      turns_left
       att_id
       att_resistance
       att_points
@@ -57,14 +58,14 @@ def get_wars_data(allianceSet: set):
     return data["data"]["wars"]["data"]
 
 
-def extract_nationSet(warList) -> set:
+def extract_nationSet(warList: list) -> set:
     nationSet = set()
     for war in warList:
         nationSet.add(int(war["att_id"]))
         nationSet.add(int(war["def_id"]))
     return nationSet
 
-def nations_to_dict(nationList):
+def nations_to_dict(nationList: list) -> dict:
     d = dict()
 
     for nation in nationList:
