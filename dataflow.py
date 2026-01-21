@@ -5,7 +5,7 @@ import os
 KEY=os.getenv("APIKEY")
 URL = 'https://api.politicsandwar.com/graphql?api_key=' + KEY
 
-nationsQuery= """{nations(id: NATIONS)
+nationsQuery= """{nations(id: NATIONS, first:500)
   {
     data
     {
