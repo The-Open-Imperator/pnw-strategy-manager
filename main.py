@@ -8,7 +8,8 @@ from cytograph import dash_cyto_format
 from dataflow import init_wars_nations_from_allianceSet
 from dataconvert import create_WarTable_from_wars_nations
 
-allianceSet = {4221, 3339, 12480, 11009, 1210, 7484, 13295}
+#allianceSet = {4221, 3339, 12480, 11009, 1210, 7484, 13295}
+allianceSet = {4221}
 wars, nations = init_wars_nations_from_allianceSet(allianceSet)
 warTable = create_WarTable_from_wars_nations(wars, nations)
 
