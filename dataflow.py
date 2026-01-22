@@ -13,7 +13,7 @@ nationsQuery= """{nations(id: NATIONS, first:500)
       nation_name
       discord
       discord_id
-      alliance { name }
+      alliance { name, id }
       score
       num_cities
       soldiers
@@ -34,9 +34,11 @@ warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 200)
       id
       turns_left
       att_id
+      att_alliance_id
       att_resistance
       att_points
       def_id
+      def_alliance_id
       def_resistance
       def_points
       
