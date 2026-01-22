@@ -1,4 +1,6 @@
 space = 75
+left = -500
+right = 500
 
 def make_node_label(nation: dict) -> str:
     return f"{nation['nation_name']} | c:{nation['num_cities']} | s:{nation['score']} \n s:{nation['soldiers']} | t:{nation['tanks']} | a:{nation['aircraft']} | s:{nation['ships']}"
@@ -36,9 +38,9 @@ class Sphere():
     @staticmethod
     def get(alliance):
         if type(alliance) == str:
-            return map_allianceID_to_sphere(alliance)
+            return Sphere.map_allianceID_to_sphere(alliance)
         if type(alliance) == dict:
-            return map_alliance_to_sphere(alliance)
+            return Sphere.map_alliance_to_sphere(alliance)
 
 
 class Edge:
@@ -50,44 +52,46 @@ class Edge:
 
     def to_dict(self):
         d = dict()
-        d['data'] = {'source': self.source, 'target': self.target, 'label': self.label}
+        d['data'] = {'source': str(self.source), 'target': str(self.target), 'label': self.label}
         d['data']['group'] = self.group
         d['type'] = 'edge'
 
+        return d
+
 class Node:
     def __init__(self, ID: int, label: str, group: str):
-        self.id = id
+        self.id = ID
         self.label = label
         self.group = group
+        self.position = {'x': 0, 'y':0}
 
     def to_dict(self):
         d = dict()
-        d['data'] = {'id': self.id, 'label': self.label}
-        d['data']['group'] = self.group
+        d['data'] = {'id': str(self.id), 'label': self.label, 'group': self.group}
+        d['position'] = self.position
         d['type'] = 'node'
 
         return d
 
 class Graph:
-    def __init__(self, *args):
+    def __init__(self, nations, wars):
         self.Nedges = 0
         self.Nnodes = 0
-        if len(args) == 2:
-            numN = len(args[0])
-            numE = len(args[1])
-            self.nodes = [Node]* numN
-            self.edges = [Edge]* numE
-            self.add_from_nations_wars(args[0], args[1])
-        else:
-            self.nodes = list()
-            self.edges = list()
+        numN = len(nations)
+        numE = len(wars)
+        self.nodes = list()
+        self.edges = list()
+        #self.nodes = [Node]* numN
+        #self.edges = [Edge]* numE
+        #self.add_from_nations_wars(nations, wars)
+
     
-    def add_from_nations_wars(self, nations, wars):
-        for n in nations:
-            self.add_node(int(n['id']), make_node_label(n), Sphere.get(n.get('alliance')))
+    def add_from_nations_wars(self, wars, nations):
+        for ID, n in nations.items():
+            self.add_node(int(ID), make_node_label(n), Sphere.get(n.get('alliance')))
         for w in wars:
             l = make_edge_label(w)
-            s = Sphere.get(w['att_alliance'])
+            s = Sphere.get(w['att_alliance_id'])
             self.add_edge(int(w['att_id']), int(w['def_id']), l, s)
 
     def add_node(self, ID, label, group):
@@ -95,7 +99,7 @@ class Graph:
         self.Nnodes += 1
 
     def add_edge(self, source, target, label, group):
-        self.edges.append(Edge( source, target, label, group))
+        self.edges.append(Edge(source, target, label, group))
         self.Nedges += 1
 
     def generate_layout(self):
@@ -105,11 +109,8 @@ class Graph:
         NnodeRightDown = 0
 
         for n in self.nodes:
-            if n['type'] == 'edge':   # Check if object is a node
-                continue
-
-            g = n['data']['group'] 
-            if g == Sphere.ALLIANCE or g == Sphere.SPHERE:
+            print(n.label)
+            if n.group == Sphere.ALLIANCE or n.group == Sphere.SPHERE:
                 x = left
                 y = NnodeLeftUp
                 NnodeLeftUp += 1
@@ -118,9 +119,7 @@ class Graph:
                 y = NnodeRightUp
                 NnodeRightUp += 1
 
-            n['position'] = {'x': x, 'y': y*space}
-        return nodes
-
+            n.position = {'x': x, 'y': y*space}
 
     def get_all(self):
         n = list()
@@ -130,3 +129,14 @@ class Graph:
             n.append(i.to_dict())
         
         return n
+
+
+
+if __name__ == '__main__':
+    wars = {}
+    g = Graph('a', 'b')
+    g.add_node(1, 'Node 1', 'sphere')
+    print(g.nodes[0].group)
+    g.add_node(2, 'Node 2', 'sphere')
+    g.add_edge(1, 2, '1-2', 'sphere')
+    print(g.get_all())

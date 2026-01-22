@@ -1,5 +1,5 @@
 import dash_cytoscape as cyto
-from graphs import Sphere
+from graphs import Sphere, Graph
 
 left = -500
 right = 500
@@ -9,65 +9,14 @@ nodeHeight = 50
 nodeWidth = 350
 
 
-def make_label(nation: dict) -> str:
-    return f"{nation['nation_name']} | c:{nation['num_cities']} | s:{nation['score']} \n s:{nation['soldiers']} | t:{nation['tanks']} | a:{nation['aircraft']} | s:{nation['ships']}"
-
-def add_node(nation: dict) -> dict:
-    node = dict()
-    node['data'] = {'id': nation['id'], 'label': make_label(nation)}
-    node['type'] = 'node'
-
-    # Group attributes to color the nodes with stylesheet
-    node['data']['group'] = Sphere.map_alliance_to_sphere(nation.get('alliance'))
-    
-    return node
-
-def add_edge(war: dict) -> dict:
-    edge = dict()
-    label = f"a:{war['att_resistance']} | {war['turns_left']} | d:{war['def_resistance']}"
-    edge['data'] = {'source':war['att_id'], 'target':war['def_id'], 'label': label}
-    
-    edge['type'] = 'edge' 
-    edge['data']['group'] = Sphere.map_allianceID_to_sphere(war['att_alliance_id'])
-    print(edge)
-    return edge
-
-def set_node_positions(nodes: list, edges: list) -> list:
-    NnodeLeftUp = 0
-    NnodeLeftDown = 0
-    NnodeRightUp = 0
-    NnodeRightDown = 0
-
-    for n in nodes:
-        if n['type'] == 'edge':   # Check if object is a node
-            continue
-
-        g = n['data']['group'] 
-        if g == Sphere.ALLIANCE or g == Sphere.SPHERE:
-            x = left
-            y = NnodeLeftUp
-            NnodeLeftUp += 1
-        else:
-            x = right
-            y = NnodeRightUp
-            NnodeRightUp += 1
-
-        n['position'] = {'x': x, 'y': y*space}
-    return nodes
-
 def create_element_list(wars: list, nations: dict) -> list:
-    nodes = list()
-    edges = list()
+    G = Graph(nations, wars)
+    G.add_from_nations_wars(wars, nations)
 
-    for ID, nation in nations.items():
-        nodes.append(add_node(nation))
-
-    for war in wars:
-        edges.append(add_edge(war))
+    G.generate_layout()
     
-    nodes = set_node_positions(nodes, edges)
-
-    return nodes + edges 
+    print(G.get_all())
+    return G.get_all()
 
 def calc_graph_height(nations: int) -> int:
     return space * nations + nodeHeight * nations
