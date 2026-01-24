@@ -10,12 +10,12 @@ nodeWidth = 350
 
 
 def create_element_list(wars: list, nations: dict) -> list:
-    G = Graph(nations, wars)
-    G.add_from_nations_wars(wars, nations)
+    G = Graph(wars, nations)
+    #G.add_from_nations_wars(wars, nations)
 
     G.generate_layout()
     
-    print(G.get_all())
+    #print(G.get_all())
     return G.get_all()
 
 def calc_graph_height(nations: int) -> int:

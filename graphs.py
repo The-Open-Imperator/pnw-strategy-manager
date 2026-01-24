@@ -58,6 +58,7 @@ class Edge:
 
         return d
 
+
 class Node:
     def __init__(self, ID: int, label: str, group: str):
         self.id = ID
@@ -73,17 +74,17 @@ class Node:
 
         return d
 
+
 class Graph:
-    def __init__(self, nations, wars):
+
+    def __init__(self, wars, nations):
         self.Nedges = 0
         self.Nnodes = 0
         numN = len(nations)
         numE = len(wars)
         self.nodes = list()
         self.edges = list()
-        #self.nodes = [Node]* numN
-        #self.edges = [Edge]* numE
-        #self.add_from_nations_wars(nations, wars)
+        self.add_from_nations_wars(wars, nations)
 
     
     def add_from_nations_wars(self, wars, nations):
@@ -101,12 +102,53 @@ class Graph:
     def add_edge(self, source, target, label, group):
         self.edges.append(Edge(source, target, label, group))
         self.Nedges += 1
+    
+    def get_r(self, ID: int, Rvertex: dict) -> int:
+        if Rvertex.get(ID) != None:   # Node ID is an rvertex
+            return ID
+        
+        for nodeID, r in Rvertex.items(): # Search for ID in all Rvertex vertecies lists
+            for v in r['vertecies']:
+                if v.id == ID:
+                    return nodeID
+        print(f"Failed to find Node {nodeID} in Rvertex lists! \n")
 
     def generate_layout(self):
+        EdgeAddLater = list()
+        Rvertex = dict()
+        for n in self.nodes:
+            Rvertex[n.id] = {'r': n.id, 'vertecies': [n], 'num': 1}
+        print(Rvertex)
+
+        for e in self.edges:
+            v1 = self.get_r(e.source, Rvertex)
+            v2 = self.get_r(e.target, Rvertex)
+
+            if v1 != v2: # Acyclic => smaller rvertex joins bigger
+                if (Rvertex[v1]['num'] >= Rvertex[v2]['num']): # v2 smaller => v2 joins v1
+                    Rvertex[v1]['vertecies'] += Rvertex[v2]['vertecies']
+                    Rvertex[v1]['num'] += Rvertex[v2]['num']
+                    Rvertex.pop(v2)
+                else:                            # v1 smaller => v1 joins v2
+                    Rvertex[v2]['vertecies'] += Rvertex[v1]['vertecies']
+                    Rvertex[v2]['num'] += Rvertex[v1]['num']
+                    Rvertex.pop(v1)
+            else:
+                EdgeAddLater.append(e)
+
+        for key, value in Rvertex.items():
+            print(f"RVERTEX:{key} MEMBER({value['num']})->{value['vertecies']}\n")
+        print(f"MISSING MEMBER({len(EdgeAddLater)})->{EdgeAddLater}\n")
+
+        a=B
+
+
+        """
         NnodeLeftUp = 0
         NnodeLeftDown = 0
         NnodeRightUp = 0
         NnodeRightDown = 0
+        
 
         for n in self.nodes:
             print(n.label)
@@ -120,7 +162,7 @@ class Graph:
                 NnodeRightUp += 1
 
             n.position = {'x': x, 'y': y*space}
-
+        """
     def get_all(self):
         n = list()
         for i in self.nodes:
