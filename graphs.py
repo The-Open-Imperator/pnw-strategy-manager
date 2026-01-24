@@ -1,47 +1,14 @@
+from utils import Sphere
+
 space = 75
 left = -500
 right = 500
 
 def make_node_label(nation: dict) -> str:
-    return f"{nation['nation_name']} | c:{nation['num_cities']} | s:{nation['score']} \n s:{nation['soldiers']} | t:{nation['tanks']} | a:{nation['aircraft']} | s:{nation['ships']}"
+    return f"{nation['nation_name']} | 🏗️ {nation['num_cities']} | s:{nation['score']} \n 💂 {nation['soldiers']} | ⚙ {nation['tanks']} | ✈ {nation['aircraft']} | 🚢 {nation['ships']}"
 
 def make_edge_label(war: dict) -> str:
     return f"a:{war['att_resistance']} | {war['turns_left']} | d:{war['def_resistance']}"
-
-
-class Sphere():
-    ALLIANCE = 'alliance'
-    SPHERE = 'sphere'
-    ENEMY = 'enemy'
-    UNALLIED = 'unallied'
-    FALLBACK = 'fallback'
-
-    yourAlliance = "4221"
-    sphereList = ["3339", "12480", "11009", "7484", "13295"]
-
-    @staticmethod
-    def map_allianceID_to_sphere(ID: str):
-        if ID == '0':
-            return Sphere.UNALLIED
-        if ID == Sphere.yourAlliance:
-            return Sphere.ALLIANCE
-        if ID in Sphere.sphereList:
-            return Sphere.SPHERE
-        return Sphere.ENEMY
-
-    @staticmethod
-    def map_alliance_to_sphere(alliance: dict):
-        if alliance == None:
-            return Sphere.UNALLIED
-        return Sphere.map_allianceID_to_sphere(alliance['id'])
-
-    @staticmethod
-    def get(alliance):
-        if type(alliance) == str:
-            return Sphere.map_allianceID_to_sphere(alliance)
-        if type(alliance) == dict:
-            return Sphere.map_alliance_to_sphere(alliance)
-
 
 class Edge:
     def __init__(self, source: int, target: int, label: str, group: str):
@@ -76,7 +43,6 @@ class Node:
 
 
 class Graph:
-
     def __init__(self, wars, nations):
         self.Nedges = 0
         self.Nnodes = 0
@@ -102,8 +68,21 @@ class Graph:
     def add_edge(self, source, target, label, group):
         self.edges.append(Edge(source, target, label, group))
         self.Nedges += 1
-    
-    def get_r(self, ID: int, Rvertex: dict) -> int:
+
+
+    @staticmethod
+    def count_sphere_and_enemies(nations) -> (int, int):
+        nS = 0
+        nE = 0
+        for n in nations:
+            if n.group == Sphere.ALLIANCE or n.group == Sphere.SPHERE:
+                nS += 1
+            else:
+                nE += 1
+        return (nS, nE)
+
+    @staticmethod    
+    def get_r(ID: int, Rvertex: dict) -> int:
         if Rvertex.get(ID) != None:   # Node ID is an rvertex
             return ID
         
@@ -113,16 +92,14 @@ class Graph:
                     return nodeID
         print(f"Failed to find Node {nodeID} in Rvertex lists! \n")
 
-    def generate_layout(self):
-        EdgeAddLater = list()
+    def kruskal_make_MST_subgraphs(self) -> dict:
         Rvertex = dict()
         for n in self.nodes:
-            Rvertex[n.id] = {'r': n.id, 'vertecies': [n], 'num': 1}
-        print(Rvertex)
+            Rvertex[n.id] = {'vertecies': [n], 'num': 1}
 
         for e in self.edges:
-            v1 = self.get_r(e.source, Rvertex)
-            v2 = self.get_r(e.target, Rvertex)
+            v1 = Graph.get_r(e.source, Rvertex)
+            v2 = Graph.get_r(e.target, Rvertex)
 
             if v1 != v2: # Acyclic => smaller rvertex joins bigger
                 if (Rvertex[v1]['num'] >= Rvertex[v2]['num']): # v2 smaller => v2 joins v1
@@ -133,46 +110,50 @@ class Graph:
                     Rvertex[v2]['vertecies'] += Rvertex[v1]['vertecies']
                     Rvertex[v2]['num'] += Rvertex[v1]['num']
                     Rvertex.pop(v1)
-            else:
-                EdgeAddLater.append(e)
 
-        for key, value in Rvertex.items():
-            print(f"RVERTEX:{key} MEMBER({value['num']})->{value['vertecies']}\n")
-        print(f"MISSING MEMBER({len(EdgeAddLater)})->{EdgeAddLater}\n")
+        return Rvertex
+    
+    def generate_layout(self):
+        Rvertex = self.kruskal_make_MST_subgraphs()
 
-        a=B
+        nodesLeft = 0
+        nodesRight = 0
+        for r, subgraph in Rvertex.items():
+            nS, nE = Graph.count_sphere_and_enemies(subgraph['vertecies'])
+
+            # calculate padding between nS nE nations 
+            # s.t. the subgraphs always align on the bottom most element
+            if nS > nE:
+                nodesRight += (nS - nE)
+            elif (nS < nE):
+                nodesLeft += (nE - nS)
+
+            # set postions
+            for n in subgraph['vertecies']:
+                if n.group == Sphere.ALLIANCE or n.group == Sphere.SPHERE:
+                    x = left
+                    y = nodesLeft
+                    nodesLeft += 1
+                else:
+                    x = right
+                    y = nodesRight
+                    nodesRight += 1
+
+                n.position = {'x': x, 'y': y*space}
+ 
+            # padding for the next subgraph
+            nodesLeft += 1
+            nodesRight += 1
 
 
-        """
-        NnodeLeftUp = 0
-        NnodeLeftDown = 0
-        NnodeRightUp = 0
-        NnodeRightDown = 0
-        
-
-        for n in self.nodes:
-            print(n.label)
-            if n.group == Sphere.ALLIANCE or n.group == Sphere.SPHERE:
-                x = left
-                y = NnodeLeftUp
-                NnodeLeftUp += 1
-            else:
-                x = right
-                y = NnodeRightUp
-                NnodeRightUp += 1
-
-            n.position = {'x': x, 'y': y*space}
-        """
     def get_all(self):
         n = list()
         for i in self.nodes:
             n.append(i.to_dict())
         for i in self.edges:
             n.append(i.to_dict())
-        
+    
         return n
-
-
 
 if __name__ == '__main__':
     wars = {}

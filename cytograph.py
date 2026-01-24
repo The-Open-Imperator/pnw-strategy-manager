@@ -74,7 +74,10 @@ def dash_cyto_format(wars: list, nations: dict):
             {
                 'selector': f"node[group = '{Sphere.ALLIANCE}']",
                 'style': {
-                    'border-color': 'blue'
+                    'border-color': 'grey',
+                    'background-fill' : 'linear-gradient',
+                    'background-gradient-stop-colors': 'white blue',
+                    'background-gradient-stop-positions' : '80% 100%'
                     #'line-color': 'blue'
                 }
             },
@@ -82,7 +85,10 @@ def dash_cyto_format(wars: list, nations: dict):
             {
                 'selector': f"node[group = '{Sphere.SPHERE}']",
                 'style': {
-                    'border-color': 'aqua'
+                    'border-color': 'grey',
+                    'background-fill' : 'linear-gradient',
+                    'background-gradient-stop-colors': 'white aqua',
+                    'background-gradient-stop-positions' : '80% 100%'
                     #'line-color': 'aqua'
                 }
             },
@@ -90,7 +96,10 @@ def dash_cyto_format(wars: list, nations: dict):
             {
                 'selector': f"node[group = '{Sphere.UNALLIED}']",
                 'style': {
-                    'border-color':'grey'
+                    'border-color': 'grey',
+                    'background-fill' : 'linear-gradient',
+                    'background-gradient-stop-colors': 'white gray',
+                    'background-gradient-stop-positions' : '80% 100%'
                     #'line-color': 'grey'
                 }
             },
@@ -98,8 +107,10 @@ def dash_cyto_format(wars: list, nations: dict):
             {
                 'selector': f"node[group = '{Sphere.ENEMY}']",
                 'style': {
-                    #'line-color': 'red'
-                    'border-color': 'red'
+                    'border-color': 'grey',
+                    'background-fill' : 'linear-gradient',
+                    'background-gradient-stop-colors': 'white red',
+                    'background-gradient-stop-positions' : '80% 100%'
                 }
             },
             # Edge electors
