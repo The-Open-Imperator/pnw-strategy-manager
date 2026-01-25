@@ -1,44 +1,43 @@
 import dash_cytoscape as cyto
 from graphs import Sphere, Graph
 
-left = -500
-right = 500
-space = 75
+class Viewport:
+    nodePosLeft = 350
+    nodePosRight = 1350
+    nodeSpace = 75
 
-nodeHeight = 50
-nodeWidth = 350
+    nodeHeight = 50
+    nodeWidth = 350
+
+    warNodeHeight = 25
+    warNodeWidth = 250
 
 
-def create_element_list(wars: list, nations: dict) -> list:
+def create_element_list(wars: list, nations: dict) -> (list, int):
     G = Graph(wars, nations)
-    #G.add_from_nations_wars(wars, nations)
-
-    G.generate_layout()
+    maxNodesInCol = G.generate_layout(Viewport.nodePosLeft, Viewport.nodePosRight, Viewport.nodeSpace)
     
-    #print(G.get_all())
-    return G.get_all()
+    return (G.get_all(), maxNodesInCol)
 
-def calc_graph_height(nations: int) -> int:
-    return space * nations + nodeHeight * nations
-
-def calc_graph_width() -> int:
-    return 2* nodeWidth - left + right
+def calc_graph_height(maxNodesInCol: int) -> int:
+    return maxNodesInCol * (Viewport.nodeSpace + Viewport.nodeWidth)
 
 def dash_cyto_format(wars: list, nations: dict):
-    height = calc_graph_height(len(nations))
-    width = calc_graph_width()
+    elements, maxNodesInCol = create_element_list(wars, nations) 
+    height = calc_graph_height(maxNodesInCol)
 
     cy = cyto.Cytoscape(
         zoom = 1,
         userZoomingEnabled = False,
         layout={'name': 'preset',
-                'fit': False
+                'fit': False,
+                'avoidOverlap': True
             },
-        style={'width':f'{width}', 
+        style={'width':'100%', 
                'height':f'{height}px'
             },
-        pan = {'x': width, 'y': int(height / 6)},
-        elements=create_element_list(wars, nations),
+        pan = {'x': 0, 'y': 300},
+        elements=elements,
         stylesheet=[
             # All nodes selector
             {
@@ -48,8 +47,8 @@ def dash_cyto_format(wars: list, nations: dict):
                     'text-wrap': 'wrap',
                     'text-size': '22',
                     'shape': 'round-rectangle',
-                    'width': f'{nodeWidth}px',
-                    'height': f'{nodeHeight}px',
+                    'width': f'{Viewport.nodeWidth}px',
+                    'height': f'{Viewport.nodeHeight}px',
                     'text-halign': 'center',
                     'text-valign': 'center',
                     'border-width': '3',
@@ -57,16 +56,26 @@ def dash_cyto_format(wars: list, nations: dict):
 
                 }
             },
+            # All warnodes
+            {
+                'selector': "node[type = 'warnode']",
+                'style': {
+                        'content': 'data(label)',
+                        'text-size': '18',
+                        'width': f'{Viewport.warNodeWidth}px',
+                        'height': f'{Viewport.warNodeHeight}px'
+                    }
+            },
+
             # All edges
             {
                 'selector': 'edge',
                 'style': {
                     #'mid-target-arrow-shape': 'triangle',
-                    'curve-style': 'unbundled-bezier',
+                    #'curve-style': 'unbundled-bezier',
+                    'curve-style': 'straight',
                     #'control-point-ditances': '0.2 0.5 0.8',
                     #'control-point-weight': '1 0 1',
-                    'label': 'data(label)',
-                    'text-margin-y': '-20'
                 }
             },
 
@@ -115,7 +124,7 @@ def dash_cyto_format(wars: list, nations: dict):
             },
             # Edge electors
             {
-                'selector': f"edge[group = '{Sphere.ALLIANCE}']",
+                'selector': f"edge[type = 'edge-sw']",
                 'style': {
                     'source-endpoint': '50% 0%',
                     'target-endpoint': '-50% 0%',
@@ -124,28 +133,30 @@ def dash_cyto_format(wars: list, nations: dict):
             },
             # Edge selectors
             {
-                'selector': f"edge[group = '{Sphere.SPHERE}']",
+                'selector': f"edge[type = 'edge-we']",
                 'style': {
                     'source-endpoint': '50% 0%',
                     'target-endpoint': '-50% 0%',
-                    'line-color': 'aqua'
+                    'line-color': 'blue'
                 }
             },
             # Edge selector
             {
-                'selector': f"edge[group = '{Sphere.UNALLIED}']",
+                'selector': f"edge[type = 'edge-ws']",
                 'style': {
                     'source-endpoint': '-50% 0%',
-                    'target-endpoint': '50% 0%'
+                    'target-endpoint': '50% 0%',
+                    'line-color': 'red'
                 }
 
             },
             # Edge selector
             {
-                'selector': f"edge[group = '{Sphere.ENEMY}']",
+                'selector': f"edge[type = 'edge-ew']",
                 'style': {
                     'source-endpoint': '-50% 0%',
-                    'target-endpoint': '50% 0%'
+                    'target-endpoint': '50% 0%',
+                    'line-color': 'red'
                 }
             }])
     return cy
