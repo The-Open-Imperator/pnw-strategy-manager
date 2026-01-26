@@ -1,4 +1,4 @@
-from utils import Sphere
+from utils import Sphere, Viewport
 
 def make_node_label(nation: dict) -> str:
     return f"{nation['nation_name']} | 🏗️ {nation['num_cities']} | 📈 {nation['score']} \n 💂 {nation['soldiers']} | ⚙ {nation['tanks']} | ✈ {nation['aircraft']} | 🚢 {nation['ships']}"
@@ -107,17 +107,6 @@ class Graph:
         self.Nedges += 1
 
 
-    @staticmethod
-    def count_sphere_and_enemies(nations) -> (int, int):
-        nS = 0
-        nE = 0
-        for n in nations:
-            if n.group == Sphere.ALLIANCE or n.group == Sphere.SPHERE:
-                nS += 1
-            else:
-                nE += 1
-        return (nS, nE)
-
     @staticmethod    
     def get_r(ID: int, Rvertex: dict) -> int:
         if Rvertex.get(ID) != None:   # Node ID is an rvertex
@@ -154,68 +143,52 @@ class Graph:
 
         return Rvertex
     """
-    FUNC: generate_layout(self,
-                        posL,       # px position of left nodes
-                        posR,       # px position of right nodes
-                        nodeSpace)  # px space between nodes
+    FUNC: generate_layout(self) 
     DESC: Uses kruskals algorithm to determine connected subgraphs and puts them 
           together in the layout.
-    RETURN: max(nodes on the left, nodes on the right)
+    RETURN: Size of the generated layout
     """
-    def generate_layout(self, posL: int, posR: int, nodeSpace: int):
+    def generate_layout(self):
         Rvertex = self.kruskal_make_MST_subgraphs()
 
-        nodesLeft = 0
-        nodesRight = 0
+        currentLine = 0
         for r, subgraph in Rvertex.items():
-            nS, nE = Graph.count_sphere_and_enemies(subgraph['vertecies'])
-
-            # calculate padding between nS nE nations 
-            # s.t. the subgraphs always align on the bottom most element
-            if nS > nE:
-                nodesRight += (nS - nE)
-            elif (nS < nE):
-                nodesLeft += (nE - nS)
+            nodesLeft = 0
+            nodesRight = 0
+            nodesMid = 0
 
             # create warnodes and assign positions
-            nodesMid = 0
-            posMid = int((posL + posR) / 2)
             for e in subgraph['edges']:
-                pos = {'x': posMid, 'y': min(nodesLeft, nodesRight)*nodeSpace + nodesMid*25}
+                x = Viewport.warNodePos
+                y = currentLine + (Viewport.warNodeSpace) * nodesMid
+                pos = {'x': x, 'y': y}
                 self.warnodes.append(Warnode(e.source, e.target, pos, e.label, e.group))
-                nodesMid += 2
+                nodesMid += 1
 
             # set node postions
             for n in subgraph['vertecies']:
                 if n.group == Sphere.ALLIANCE or n.group == Sphere.SPHERE:
-                    x = posL
-                    y = nodesLeft
+                    x = Viewport.nodePosLeft
+                    y = currentLine + Viewport.nodeSpace * nodesLeft
                     nodesLeft += 1
                 else:
-                    x = posR
-                    y = nodesRight
+                    x = Viewport.nodePosRight
+                    y = currentLine + Viewport.nodeSpace * nodesRight
                     nodesRight += 1
 
-                n.position = {'x': x, 'y': y*nodeSpace}
+                n.position = {'x': x, 'y': y}
            
-            # calc warnode passing
-            warnodePadding = 0
-            if (nodesMid / 2) > max(nodesLeft, nodesRight):
-                warnodePadding = int(max(nodesLeft, nodesRight) - (nodesMid/2))
-
-            # padding for the next subgraph
-            nodesLeft += (1 + warnodePadding)
-            nodesRight += (1 + warnodePadding)
-
-        return max(nodesLeft, nodesRight)
+            left = nodesLeft*Viewport.nodeSpace 
+            right = nodesRight*Viewport.nodeSpace 
+            mid = nodesMid*Viewport.warNodeSpace 
+            currentLine += max(left, right, mid) + Viewport.nodeSpace
+        return currentLine
 
 
     def get_all(self):
         n = list()
         for i in self.nodes:
             n.append(i.to_dict())
-        #for i in self.edges:
-        #    n.append(i.to_dict())
         for i in self.warnodes:
             n += i.to_dict_list()
         return n

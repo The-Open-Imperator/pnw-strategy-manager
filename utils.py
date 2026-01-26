@@ -31,3 +31,19 @@ class Sphere():
         if type(alliance) == dict:
             return Sphere.map_alliance_to_sphere(alliance)
 
+class Viewport:
+    panY = 300
+
+    nodePosLeft = 350
+
+    nodePosRight = 1350
+    nodeSpace = 75
+
+    nodeHeight = 50
+    nodeWidth = 350
+
+    warNodePos = int((nodePosLeft + nodePosRight) / 2)
+    warNodeSpace = 50
+
+    warNodeHeight = 25
+    warNodeWidth = 250

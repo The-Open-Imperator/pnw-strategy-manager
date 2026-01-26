@@ -1,30 +1,17 @@
 import dash_cytoscape as cyto
-from graphs import Sphere, Graph
-
-class Viewport:
-    nodePosLeft = 350
-    nodePosRight = 1350
-    nodeSpace = 75
-
-    nodeHeight = 50
-    nodeWidth = 350
-
-    warNodeHeight = 25
-    warNodeWidth = 250
+from graphs import Graph
+from utils import Viewport, Sphere
 
 
 def create_element_list(wars: list, nations: dict) -> (list, int):
     G = Graph(wars, nations)
-    maxNodesInCol = G.generate_layout(Viewport.nodePosLeft, Viewport.nodePosRight, Viewport.nodeSpace)
+    graphHeight = G.generate_layout()
     
-    return (G.get_all(), maxNodesInCol)
-
-def calc_graph_height(maxNodesInCol: int) -> int:
-    return maxNodesInCol * (Viewport.nodeSpace + Viewport.nodeWidth)
+    return (G.get_all(), graphHeight)
 
 def dash_cyto_format(wars: list, nations: dict):
-    elements, maxNodesInCol = create_element_list(wars, nations) 
-    height = calc_graph_height(maxNodesInCol)
+    elements, height = create_element_list(wars, nations) 
+    height += Viewport.panY
 
     cy = cyto.Cytoscape(
         zoom = 1,
@@ -36,7 +23,7 @@ def dash_cyto_format(wars: list, nations: dict):
         style={'width':'100%', 
                'height':f'{height}px'
             },
-        pan = {'x': 0, 'y': 300},
+        pan = {'x': 0, 'y': Viewport.panY},
         elements=elements,
         stylesheet=[
             # All nodes selector
