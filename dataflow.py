@@ -35,10 +35,12 @@ warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 200)
       turns_left
       att_id
       att_alliance_id
+      att_alliance_position
       att_resistance
       att_points
       def_id
       def_alliance_id
+      def_alliance_position
       def_resistance
       def_points
       

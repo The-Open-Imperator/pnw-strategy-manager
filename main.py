@@ -12,9 +12,9 @@ from dataconvert import create_warTable_from_wars_nations, csv_str_to_set
 dataSettings = html.Center(
                     html.Fieldset(children = [
                         html.H3("Data Settings", style={'textAlign':'center', 'font-size':'34'}),
+                        html.Div("Get all wars from"),
                         dcc.Input(id='input_alliance_list', type='text', placeholder='AA list, ex: 4221, 1312'),
-                        dcc.Input(id='input_sphere_list', type='text', placeholder='AA list, ex: 1, 2, 3, 4'),
-                        dcc.Checklist(['Include Applicants'], ['Include Applicants']),
+                        #dcc.Checklist(['Include applicants'], ['Include applicants'], id='include_applicants'),
                         html.Button("Apply & Pull data", id='btn_apply')
                                              ],
                                   style = {'width':'400px', 'border-radius':'8px'}
@@ -52,13 +52,13 @@ app.layout = [
     Output('wargraph', 'children'),
     Input('btn_apply', 'n_clicks'),
     State('input_alliance_list', 'value'),
-    State('input_sphere_list', 'value'),
     prevent_initial_call=True
 )
-def update_data(n_clicks, allianceList, sphereList):
+def update_data(n_clicks, allianceList):
     wars, nations = init_wars_nations_from_allianceSet(csv_str_to_set(allianceList))
     warTable = create_warTable_from_wars_nations(wars, nations)
-    return ([dash_wartable_format(warTable)], [dash_cyto_format(wars, nations)])
+
+    return [dash_wartable_format(warTable), dash_cyto_format(wars, nations)]
 
 if __name__ == '__main__':
     app.run(debug=True)
