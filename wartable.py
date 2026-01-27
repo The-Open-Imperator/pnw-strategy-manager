@@ -38,6 +38,8 @@ def wartable_cell_conditional():
 
 def dash_wartable_format(warTable: list):
     dt = dash_table.DataTable(
+        id = 'wartable',
+
         data = warTable,
         columns = wartable_name_id_mapping(),
 

@@ -14,6 +14,7 @@ def dash_cyto_format(wars: list, nations: dict):
     height += Viewport.panY
 
     cy = cyto.Cytoscape(
+        id = 'wargraph',
         zoom = 1,
         userZoomingEnabled = False,
         layout={'name': 'preset',

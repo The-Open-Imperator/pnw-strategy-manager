@@ -1,6 +1,6 @@
 import pandas as pd
 
-def create_WarTable_from_wars_nations(wars: list, nations: dict) -> list:
+def create_warTable_from_wars_nations(wars: list, nations: dict) -> list:
     prelist = []
 
     for war in wars:
@@ -44,6 +44,12 @@ def create_WarTable_from_wars_nations(wars: list, nations: dict) -> list:
 
         prelist.append(row)
     return prelist
+
+def csv_str_to_set(allianceList: str) -> set:
+    s = set()
+    for AA in allianceList.split(','):
+        s.add(int(AA))
+    return s
 
 if __name__ == '__main__':
     from dataflow import init_wars_nations_from_allianceSet
