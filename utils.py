@@ -37,13 +37,13 @@ class Viewport:
     nodePosLeft = 350
 
     nodePosRight = 1350
-    nodeSpace = 75
+    nodeSpace = 80
 
-    nodeHeight = 50
+    nodeHeight = 60
     nodeWidth = 350
 
     warNodePos = int((nodePosLeft + nodePosRight) / 2)
-    warNodeSpace = 50
+    warNodeSpace = 60
 
-    warNodeHeight = 25
+    warNodeHeight = 40
     warNodeWidth = 250

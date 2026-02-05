@@ -1,13 +1,13 @@
 from utils import Sphere, Viewport
 
 def make_node_label(nation: dict) -> str:
-    return f"{nation['nation_name']} | 🏗️ {nation['num_cities']} | 📈 {nation['score']} \n 💂 {nation['soldiers']} | ⚙ {nation['tanks']} | ✈ {nation['aircraft']} | 🚢 {nation['ships']}"
+    return f"{nation['nation_name']} | 🌐 {nation['alliance']['name']} \n ☎️ {nation['discord']} | 🏗️ {nation['num_cities']} | 📈 {nation['score']} \n 💂 {nation['soldiers']} | ⚙ {nation['tanks']} | ✈ {nation['aircraft']} | 🚢 {nation['ships']}"
 
 def make_edge_label(war: dict, group: str) -> str:
     if group == Sphere.ALLIANCE or group == Sphere.SPHERE:
-        l = f"🗡️ {war['att_resistance']} | 🕛 {war['turns_left']} | 🛡 {war['def_resistance']}" 
+        l = f"🗡️ {war['att_resistance']} | 🕛 {war['turns_left']} | 🛡 {war['def_resistance']} \n {war['att_points']} | MAP | {war['def_points']}" 
     else:
-        l = f"🛡 {war['def_resistance']} | 🕛 {war['turns_left']} | 🗡️ {war['att_resistance']}"
+        l = f"🛡 {war['def_resistance']} | 🕛 {war['turns_left']} | 🗡️ {war['att_resistance']} \n {war['def_points']} | MAP | {war['att_points']}"
     return l 
 
 class Edge:
