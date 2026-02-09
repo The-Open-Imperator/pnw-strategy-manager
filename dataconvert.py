@@ -1,5 +1,7 @@
 import pandas as pd
 
+from utils import DEFAULT_NO_ALLIANCE
+
 def create_warTable_from_wars_nations(wars: list, nations: dict) -> list:
     prelist = []
 
@@ -18,7 +20,7 @@ def create_warTable_from_wars_nations(wars: list, nations: dict) -> list:
         if (atk["alliance"] != None):
             row["a_alliance"] = atk["alliance"]["name"]
         else:
-            row["a_alliance"] = None
+            row["a_alliance"] = DEFAULT_NO_ALLIANCE
 
         row["a_nation_name"] = atk["nation_name"]
         row["a_resistance"] = war["att_resistance"]
@@ -33,7 +35,7 @@ def create_warTable_from_wars_nations(wars: list, nations: dict) -> list:
         if (der["alliance"] != None):
             row["d_alliance"] = der["alliance"]["name"]
         else:
-            row["d_alliance"] = None
+            row["d_alliance"] = DEFAULT_NO_ALLIANCE
 
         row["d_soldiers"] = der["soldiers"]
         row["d_tanks"] = der["tanks"]
@@ -55,5 +57,5 @@ if __name__ == '__main__':
     from dataflow import init_wars_nations_from_allianceSet
     allianceSet = {4221}
     wars, nations = init_wars_nations_from_allianceSet(allianceSet)
-    dfWarTable = create_WarTable_from_wars_nations(wars, nations)
+    dfWarTable = create_warTable_from_wars_nations(wars, nations)
     print(dfWarTable)

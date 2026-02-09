@@ -1,3 +1,8 @@
+# DEFAULT CONSTANTS
+DEFAULT_NO_ALLIANCE = {'id':'0', 'name':''}
+
+
+# Helper Classes
 class Sphere():
     ALLIANCE = 'alliance'
     SPHERE = 'sphere'

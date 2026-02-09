@@ -2,6 +2,8 @@ import requests
 import json
 import os
 
+from utils import DEFAULT_NO_ALLIANCE
+
 KEY=os.getenv("APIKEY")
 URL = 'https://api.politicsandwar.com/graphql?api_key=' + KEY
 
@@ -73,6 +75,10 @@ def nations_to_dict(nationList: list) -> dict:
     d = dict()
 
     for nation in nationList:
+        if nation['alliance'] == None:
+            nation['alliance'] = DEFAULT_NO_ALLIANCE
+            print(DEFAULT_NO_ALLIANCE)
+            print(nation)
         d[nation["id"]] = nation
 
     return d
