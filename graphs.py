@@ -140,8 +140,11 @@ class Graph:
 
                     Rvertex[v2]['edges'] += Rvertex[v1]['edges'] + [e]
                     Rvertex.pop(v1)
+            else:       # Cyclic edge => add edge to any of the Rvertecies
+                Rvertex[v1]['edges'] += [e]
 
         return Rvertex
+
     """
     FUNC: generate_layout(self) 
     DESC: Uses kruskals algorithm to determine connected subgraphs and puts them 

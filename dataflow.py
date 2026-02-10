@@ -29,7 +29,7 @@ nationsQuery= """{nations(id: NATIONS, first:500)
   }
 }"""
 
-warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 200)
+warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 500)
   {
     data
     {
@@ -77,8 +77,6 @@ def nations_to_dict(nationList: list) -> dict:
     for nation in nationList:
         if nation['alliance'] == None:
             nation['alliance'] = DEFAULT_NO_ALLIANCE
-            print(DEFAULT_NO_ALLIANCE)
-            print(nation)
         d[nation["id"]] = nation
 
     return d
