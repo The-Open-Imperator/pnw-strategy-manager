@@ -1,6 +1,15 @@
 # DEFAULT CONSTANTS
 DEFAULT_NO_ALLIANCE = {'id':'0', 'name':''}
 
+DEFAULT_NATION_FILTER = {
+    'excludeApplicants':False,
+    'excludeBeige':False,
+    'includeIfBeigeLessThan':2,         # Applies if excludeBeige is True
+    'excludeVacation':False,
+    'includeIfVacationLessThan':2,      # Applies if excludeVacation is True
+    'excludeNoDefSlot':False,
+    'excludeNoOffSlot':False
+}
 
 # Helper Classes
 class Sphere():

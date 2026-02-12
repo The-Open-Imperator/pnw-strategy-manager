@@ -61,6 +61,7 @@ allianceQuery = """{alliances(id: ALLIANCES)
             id
             nation_name
             alliance { name, id }
+            alliance_position
             last_active
             score
             num_cities
@@ -126,11 +127,24 @@ def init_wars_nations_from_allianceSet(allianceSet: set) -> (list, dict):
     return (wars, nations)
 
 
-def extract_nations_from_allianceList(allianceList: list) -> list:
+def extract_nations_from_allianceList(allianceList: list, excludeFilter: dict) -> list:
     l = list()
 
     for alliance in allianceList:
         for nation in alliance["nations"]:
+            # Apply filter
+            if (excludeFilter['excludeApplicants'] and nation['alliance_position'] == 'APPLICANT'):
+                continue
+            if (excludeFilter['excludeBeige'] and nation['beige_turns'] > excludeFilter['includeIfBeigeLessThan']):
+                continue
+            if (excludeFilter['excludeVacation'] and nation['vacation_mode_turns'] > excludeFilter['includeIfVacationLessThan']):
+                continue
+            if (excludeFilter['excludeNoDefSlot'] and nation['defensive_wars_count'] > 2):
+                continue
+            if (excludeFilter['excludeNoOffSlot'] and nation['offensive_wars_count'] > 4):
+                continue
+
+            #Alliance field None fix
             if nation['alliance'] == None:
                 nation['alliance'] = ""
             else:
@@ -139,9 +153,9 @@ def extract_nations_from_allianceList(allianceList: list) -> list:
 
     return l
 
-def init_nations_from_allianceSet(allianceSet: set) -> list:
+def init_nations_from_allianceSet(allianceSet: set, excludeFilter: dict) -> list:
     allianceList = get_member_nation_data(allianceSet)
-    nations = extract_nations_from_allianceList(allianceList)
+    nations = extract_nations_from_allianceList(allianceList, excludeFilter)
     return nations
 
 if __name__=="__main__":
@@ -151,6 +165,7 @@ if __name__=="__main__":
     #print(nations)
 
 
+    from utils import DEFAULT_NATION_FILTER
     allianceSet = {14548, 14750}
-    nations = init_nations_from_allianceSet(allianceSet)
+    nations = init_nations_from_allianceSet(allianceSet, DEFAULT_NATION_FILTER)
     print(f"Retrived {len(nations)} nation entries from allianceSet: {allianceSet}")

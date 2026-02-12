@@ -8,6 +8,20 @@ from cytograph import dash_cyto_format
 from dataflow import init_wars_nations_from_allianceSet, init_nations_from_allianceSet
 from dataconvert import create_warTable_from_wars_nations, csv_str_to_set
 
+from utils import DEFAULT_NATION_FILTER
+
+
+nationFilterChecklist = dcc.Checklist(id='filter_enemy_list',
+        options=[
+                'exclude applicants',
+                'exclude beige >2',
+                'exclude vacation >2',
+                'exclude off slot >4',
+                'exclude def slot >2'
+            ]
+        , 
+        value = ['exclude applicants']
+                                     )
 
 dataSettings = html.Center(
                     html.Fieldset(children = [
@@ -20,6 +34,7 @@ dataSettings = html.Center(
                         
                         html.Div("Get all nations from"),
                         dcc.Input(id='input_enemy_list', type='text', placeholder='AA list, ex: 4221, 1312'),
+                        nationFilterChecklist,
                         html.Button("Apply & Pull data", id='btn_apply_enemy')
                                              ],
                                   style = {'width':'400px', 'border-radius':'8px'}
@@ -70,10 +85,25 @@ def update_data(n_clicks, allianceList):
     Output('enemytable-div', 'children'),
     Input('btn_apply_enemy', 'n_clicks'),
     State('input_enemy_list', 'value'),
+    State('filter_enemy_list', 'value'),
     prevent_initial_call=True
 )
-def update_enemytable(n_clicks, allianceList):
-    nations = init_nations_from_allianceSet(csv_str_to_set(allianceList))
+def update_enemytable(n_clicks, allianceList, filter_list):
+    excludeFilter = dict(DEFAULT_NATION_FILTER)
+
+    # Setup filter
+    if ('exclude applicants' in filter_list):
+        excludeFilter['excludeApplicants'] = True
+    if ('exclude beige >2' in filter_list):
+        excludeFilter['excludeBeige'] = True
+    if ('exclude vacation >2' in filter_list):
+        excludeFilter['excludeVacation'] = True
+    if ('exclude off slot >4' in filter_list):
+        excludeFilter['excludeNoOffSlot'] = True
+    if ('exclude def slot >2' in filter_list):
+        excludeFilter['excludeNoDefSlot'] = True
+
+    nations = init_nations_from_allianceSet(csv_str_to_set(allianceList), excludeFilter)
     
     return [dash_enemytable_format(nations)]
 

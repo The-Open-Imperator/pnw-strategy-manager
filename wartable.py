@@ -145,24 +145,24 @@ def enemytable_name_id_mapping():
 
 def enemytable_column_width():
     w = [
-            {'id':'id', 'width':'8%'},
+            {'id':'id', 'width':'6%'},
             #{'id': 'nation_name'},
             #{'id': 'alliance'},
-            #{'id': 'last_active'},
-            {'id':'score', 'width':'8%'},
-            {'id': 'num_cities', 'width':'5%'},
+            {'id': 'last_active', 'width':'9%'},
+            {'id':'score', 'width':'6%'},
+            {'id': 'num_cities', 'width':'4%'},
             #{'id':'color'},
-            {'id':'beige_turns', 'width':'5%'},
-            {'id':'vacation_mode_turns', 'width':'5%'},
-            {'id': 'offensive_wars_count', 'width':'5%'},
-            {'id': 'defensive_wars_count', 'width':'5%'},
+            {'id':'beige_turns', 'width':'4%'},
+            {'id':'vacation_mode_turns', 'width':'4%'},
+            {'id': 'offensive_wars_count', 'width':'4%'},
+            {'id': 'defensive_wars_count', 'width':'4%'},
             {'id': 'soldiers', 'width':'5%'},
             {'id': 'tanks', 'width':'5%'},
             {'id': 'aircraft', 'width':'5%'},
             {'id': 'ships', 'width':'5%'},
-            {'id': 'missiles', 'width':'5%'},
-            {'id': 'nukes', 'width':'5%'},
-            {'id': 'spies', 'width':'5%'}
+            {'id': 'missiles', 'width':'4%'},
+            {'id': 'nukes', 'width':'4%'},
+            {'id': 'spies', 'width':'4%'}
         ]
 
     return w
