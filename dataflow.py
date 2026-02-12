@@ -53,6 +53,39 @@ warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 500)
 
 """
 
+allianceQuery = """{alliances(id: ALLIANCES)
+  {
+    data
+    {
+      nations{
+            id
+            nation_name
+            alliance { name, id }
+            last_active
+            score
+            num_cities
+            color
+            beige_turns
+            vacation_mode_turns
+            offensive_wars_count
+            defensive_wars_count
+            soldiers
+            tanks
+            aircraft
+            ships
+            missiles
+            nukes
+            spies
+
+      }
+      
+    }
+    
+  }
+}
+
+"""
+
 def get_nations_data(nationSet: set):
     data = requests.post(URL, json={"query": nationsQuery.replace("NATIONS", str(list(nationSet)))})
     data = json.loads(data.content)
@@ -63,6 +96,10 @@ def get_wars_data(allianceSet: set):
     data = json.loads(data.content)
     return data["data"]["wars"]["data"]
 
+def get_member_nation_data(allianceSet: set):
+    data = requests.post(URL, json={"query": allianceQuery.replace("ALLIANCES", str(list(allianceSet)))})
+    data = json.loads(data.content)
+    return data["data"]["alliances"]["data"]
 
 def extract_nationSet(warList: list) -> set:
     nationSet = set()
@@ -81,7 +118,6 @@ def nations_to_dict(nationList: list) -> dict:
 
     return d
 
-
 def init_wars_nations_from_allianceSet(allianceSet: set) -> (list, dict):
     wars = get_wars_data(allianceSet)
     nations = get_nations_data(extract_nationSet(wars))
@@ -90,8 +126,31 @@ def init_wars_nations_from_allianceSet(allianceSet: set) -> (list, dict):
     return (wars, nations)
 
 
+def extract_nations_from_allianceList(allianceList: list) -> list:
+    l = list()
+
+    for alliance in allianceList:
+        for nation in alliance["nations"]:
+            if nation['alliance'] == None:
+                nation['alliance'] = ""
+            else:
+                nation['alliance'] = nation['alliance']['name']
+            l.append(nation)
+
+    return l
+
+def init_nations_from_allianceSet(allianceSet: set) -> list:
+    allianceList = get_member_nation_data(allianceSet)
+    nations = extract_nations_from_allianceList(allianceList)
+    return nations
+
 if __name__=="__main__":
     allianceSet = {4221}
     wars, nations = init_wars_nations_from_allianceSet(allianceSet)
+    print(f"Retrived {len(wars)} war and {len(nations)} nation data entries")
+    #print(nations)
 
-    print(nations)
+
+    allianceSet = {14548, 14750}
+    nations = init_nations_from_allianceSet(allianceSet)
+    print(f"Retrived {len(nations)} nation entries from allianceSet: {allianceSet}")

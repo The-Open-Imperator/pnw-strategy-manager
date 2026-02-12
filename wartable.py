@@ -118,6 +118,110 @@ def dash_wartable_format(warTable: list):
 
     return dt
 
+def enemytable_name_id_mapping():
+    decimalSI = Format(precision=3, scheme=Scheme.decimal_si_prefix)
+    m = [
+            {'name':'ID', 'id':'id'},
+            {'name':'Name', 'id': 'nation_name'},
+            {'name':'🌐', 'id': 'alliance'},
+            {'name':'🕛', 'id': 'last_active'},
+            {'name':'📈', 'id':'score'},
+            {'name':'🏗', 'id': 'num_cities'},
+            {'name': '🎨', 'id':'color'},
+            {'name': '🟡', 'id':'beige_turns'},
+            {'name': '🏖️', 'id':'vacation_mode_turns'},
+            {'name':'⚔️', 'id': 'offensive_wars_count'},
+            {'name':'🛡️', 'id': 'defensive_wars_count'},
+            {'name':'💂', 'id': 'soldiers', 'type':'numeric', 'format':decimalSI},
+            {'name':'⚙', 'id': 'tanks', 'type':'numeric', 'format':decimalSI},
+            {'name':'✈', 'id': 'aircraft'},
+            {'name':'🚢', 'id': 'ships'},
+            {'name':'🚀', 'id': 'missiles'},
+            {'name':'☢️', 'id': 'nukes'},
+            {'name':'🕵🏻‍♂️', 'id':'spies'}
+            ]
+
+    return m
+
+def enemytable_column_width():
+    w = [
+            {'id':'id', 'width':'8%'},
+            #{'id': 'nation_name'},
+            #{'id': 'alliance'},
+            #{'id': 'last_active'},
+            {'id':'score', 'width':'8%'},
+            {'id': 'num_cities', 'width':'5%'},
+            #{'id':'color'},
+            {'id':'beige_turns', 'width':'5%'},
+            {'id':'vacation_mode_turns', 'width':'5%'},
+            {'id': 'offensive_wars_count', 'width':'5%'},
+            {'id': 'defensive_wars_count', 'width':'5%'},
+            {'id': 'soldiers', 'width':'5%'},
+            {'id': 'tanks', 'width':'5%'},
+            {'id': 'aircraft', 'width':'5%'},
+            {'id': 'ships', 'width':'5%'},
+            {'id': 'missiles', 'width':'5%'},
+            {'id': 'nukes', 'width':'5%'},
+            {'id': 'spies', 'width':'5%'}
+        ]
+
+    return w
+
+def enemytable_cell_conditional():
+    cond = list()
+
+    #column width
+    for s in enemytable_column_width():
+        cond.append({'if': {'column_id':s['id']}, 'width':s['width']})
+
+    return cond
+
+
+def dash_enemytable_format(enemyList: list):
+    dt = dash_table.DataTable(
+        data = enemyList,
+        columns = enemytable_name_id_mapping(),
+
+        # Color every second row darker
+        style_data_conditional=[
+            {
+            'if': {'row_index': 'odd'},
+            'backgroundColor': 'rgb(220, 220, 220)',
+            }
+        ],
+        
+        #Headers
+        #merge_duplicate_headers=True,
+        style_header={
+            'backgroundColor': 'rgb(230, 230, 230)',
+            'color': 'black',
+            'fontWeight': 'bold',
+            'textAlign': 'center'
+        },
+        
+        style_cell_conditional=enemytable_cell_conditional(),
+
+        style_cell={
+            'overflow': 'hidden',
+            'textOverflow': 'ellipsis',
+            'maxWidth': 0,
+            'font-size': '20px'
+        },
+        
+
+        style_table={
+            'border': '3px solid blue',
+            'borderRadius': '15px',
+            'overflow': 'hidden'
+        },
+
+        sort_action='native'
+        #row_deletable=True)
+        #filter_action='native',
+        #filter_options={"placeholder_text": "Filter"})
+        )
+
+    return dt
 
 
 
