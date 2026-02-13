@@ -32,5 +32,5 @@ pip install -r requirements.txt
 ### Start
 Use this command to start the strategy manager, after leaving the virtual environment or restarting the console the source command has to be re-run.
 ```
-python3 main.py
+python3 app.py
 ```

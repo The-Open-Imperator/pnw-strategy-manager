@@ -177,7 +177,7 @@ def enemytable_cell_conditional():
     return cond
 
 
-def dash_enemytable_format(enemyList: list):
+def dash_nationtable_format(enemyList: list):
     dt = dash_table.DataTable(
         data = enemyList,
         columns = enemytable_name_id_mapping(),
