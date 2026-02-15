@@ -11,6 +11,63 @@ DEFAULT_NATION_FILTER = {
     'excludeNoOffSlot':False
 }
 
+
+# Politics and war defaults
+DEFAULT_WAR_TYPES = [
+    'RAID',
+    'ORDINARY',
+    'ATTRITION'
+]
+
+DEFAULT_WAR_POLICIES = [
+    'ATTRITION',
+    'TURTLE',
+    'BLITZKRIEG',
+    'FORTRESS',
+    'MONEYBAGS',
+    'PIRATE',
+    'TACTICIAN',
+    'GUARDIAN',
+    'COVERT',
+    'ARCANE'
+] 
+
+DEFAULT_DOMESTIC_POLICIES = [
+    'MANIFEST_DESTINY',
+    'OPEN_MARKETS',
+    'TECHNOLOGICAL_ADVANCEMENT',
+    'IMPERIALISM',
+    'URBANIZATION',
+    'RAPID_EXPANSION'
+]
+
+DEFAULT_COLORS = [
+    'aqua',
+    'black',
+    'blue',
+    'brown',
+    'green',
+    'lime',
+    'maroon',
+    'olive',
+    'orange',
+    'pink',
+    'purple',
+    'red',
+    'white',
+    'yellow',
+    'gold',
+    'gray',
+    'beige'
+]
+
+# DICTs for counting
+DEFAULT_WAR_TYPES_DICT = {name: 0 for name in DEFAULT_WAR_TYPES}
+DEFAULT_WAR_POLICIES_DICT = {name: 0 for name in DEFAULT_WAR_POLICIES}
+DEFAULT_DOMESTIC_POLICIES_DICT = {name: 0 for name in DEFAULT_DOMESTIC_POLICIES}
+DEFAULT_COLORS_DICT = {name: 0 for name in DEFAULT_COLORS}
+
+
 # Helper Classes
 class Sphere():
     ALLIANCE = 'alliance'

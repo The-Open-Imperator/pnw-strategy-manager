@@ -50,7 +50,6 @@ warsQuery= """{wars(alliance_id: ALLIANCES, active: true, first: 500)
     
   }
 }
-
 """
 
 allianceQuery = """{alliances(id: ALLIANCES)
@@ -84,7 +83,34 @@ allianceQuery = """{alliances(id: ALLIANCES)
     
   }
 }
+"""
 
+homepageAllianceQuery = """{alliances(id: ALLIANCE)
+  {
+    data
+    {
+      id
+      name
+      score
+      rank
+      color
+      flag
+      nations{
+        color
+        last_active
+        num_cities
+        war_policy
+        domestic_policy
+      }
+      wars{
+        att_alliance_id
+        def_alliance_id
+        war_type
+      }
+    }
+    
+  }
+}
 """
 
 def get_nations_data(nationSet: set):
@@ -101,6 +127,11 @@ def get_member_nation_data(allianceSet: set):
     data = requests.post(URL, json={"query": allianceQuery.replace("ALLIANCES", str(list(allianceSet)))})
     data = json.loads(data.content)
     return data["data"]["alliances"]["data"]
+
+def get_alliance_stats(allianceSet: set):
+    data = requests.post(URL, json={"query": homepageAllianceQuery.replace("ALLIANCE", str(list(allianceSet)))})
+    data = json.loads(data.content)
+    return data["data"]["alliances"]["data"][0]
 
 def extract_nationSet(warList: list) -> set:
     nationSet = set()
