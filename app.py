@@ -5,6 +5,7 @@ from dash import Dash, html, dcc
 VALID_USER_PASS_PAIR = {'Jewma':'test'}
 
 app = Dash(__name__, use_pages=True)
+
 auth = dash_auth.BasicAuth(app,
                            VALID_USER_PASS_PAIR,
                            secret_key="TEST")

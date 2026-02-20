@@ -24,7 +24,7 @@ class AllianceStats():
     DESC:
         Computes nation dependent statistics
     ARGS:
-        nations: list of nation dicts containing {color, last_active, num_cities, war_policy, domestic_policy}
+        nations: list of nation dicts containing {color, last_active, vacation_mode_turns, num_cities, war_policy, domestic_policy}
     VALUES:
         dict: sum_colors as color:count
         int: sum_nations active in last 24hrs
@@ -32,17 +32,27 @@ class AllianceStats():
         int: sum_cities
         dict: sum_war_policies as policy:count
         dict: sum_domestic_policies as policy:count
+        dict: cityDistribution as numCities:count
     """
     def _calc_nations_data(self, nations: list):
         self.sumColors = dict(DEFAULT_COLORS_DICT)
         self.sumWarPolicies = dict(DEFAULT_WAR_POLICIES_DICT)
         self.sumDomesticPolicies = dict(DEFAULT_DOMESTIC_POLICIES_DICT)
+        self.cityDistribution = dict()
         self.sumNationActive_24 = 0
         self.sumNationActive_72 = 0
         self.sumCities = 0
         self.sumMembers = 0
 
         for n in nations:
+            if (n['vacation_mode_turns'] > 0):
+                continue
+
+            if (self.cityDistribution.get(n['num_cities']) == None):        # No member with num_cities in dict yet
+                self.cityDistribution[n['num_cities']] = 1
+            else:
+                self.cityDistribution[n['num_cities']] += 1
+
             # DO time calc later
             self.sumMembers += 1
             self.sumCities += n['num_cities']

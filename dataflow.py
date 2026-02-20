@@ -98,6 +98,7 @@ homepageAllianceQuery = """{alliances(id: ALLIANCE)
       nations{
         color
         last_active
+        vacation_mode_turns
         num_cities
         war_policy
         domestic_policy
