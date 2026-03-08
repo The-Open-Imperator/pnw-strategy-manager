@@ -15,6 +15,7 @@ nationsQuery= """{nations(id: NATIONS, first:500)
       nation_name
       discord
       discord_id
+      beige_turns
       alliance { name, id }
       score
       num_cities

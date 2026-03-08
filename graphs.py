@@ -1,7 +1,7 @@
 from utils import Sphere, Viewport
 
 def make_node_label(nation: dict) -> str:
-    return f"{nation['nation_name']} | 🌐 {nation['alliance']['name']} \n ☎️ {nation['discord']} | 🏗️ {nation['num_cities']} | 📈 {nation['score']} \n 💂 {nation['soldiers']} | ⚙ {nation['tanks']} | ✈ {nation['aircraft']} | 🚢 {nation['ships']}"
+    return f"{nation['nation_name']} | 🌐 {nation['alliance']['name']} | 🟡 {nation['beige_turns']}\n ☎️ {nation['discord']} | 🏗️ {nation['num_cities']} | 📈 {nation['score']} \n 💂 {nation['soldiers']} | ⚙ {nation['tanks']} | ✈ {nation['aircraft']} | 🚢 {nation['ships']}"
 
 def make_edge_label(war: dict, group: str) -> str:
     if group == Sphere.ALLIANCE or group == Sphere.SPHERE:
