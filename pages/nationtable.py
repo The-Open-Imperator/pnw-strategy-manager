@@ -27,36 +27,34 @@ nationFilterChecklist = dcc.Checklist(id='filter_enemy_list',
                 'exclude vacation >2',
                 'exclude off slot >4',
                 'exclude def slot >2'
-            ]
+                ]
         , 
         value = ['exclude applicants']
                                      )
 
 dataSettings = html.Center(
                     html.Fieldset(children = [
-                        html.H3("Data Settings", style={'textAlign':'center', 'font-size':'34'}),
-                        
+                        html.H3("DATA Settings"),
                         html.Div("Get all nations from"),
                         dcc.Input(id='input_enemy_list', type='text', placeholder='AA list, ex: 4221, 1312'),
                         nationFilterChecklist,
-                        html.Button("Apply & Pull data", id='btn_apply_enemy')
+                        html.Button("APPLY", id='btn_apply_enemy', className="btn-search")
                                              ],
-                                  style = {'width':'400px', 'border-radius':'8px'}
                                 )
                           )
 
 settings = html.Fieldset(children = [
-                            html.H2("Settings", style={'textAlign':'center', 'font-size':'38'}),
+                            html.H2("Settings"),
                             dataSettings
                                     ],
-                                    style = {'width':'820px', 'border-radius':'16px'}
+                                    className="field-medium"
                         )
 
 def layout(**kwargs):
     logger.info("User %s accessed the nations page.", userhandler.get_username())
     return [
     navbar_div(),
-    html.H1(children='Nation Table', style={'textAlign':'center', 'font-size':'42'}),
+    html.Center(html.H1(children='Nation Table')),
     html.Div(html.Center(settings)),
     html.Div(id='enemytable-div', children = []),
     ]

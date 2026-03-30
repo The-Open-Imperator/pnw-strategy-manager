@@ -4,10 +4,9 @@ from dash import html, callback, Output, Input
 import logging
 logger = logging.getLogger("MAINLOG")
 
-from styles import *
+import userhandler
 
 from .nav_bar import navbar_div
-import userhandler
 
 from dataconvert import AllianceStats
 from figures import vertical_progress_bar, pichart_war_type, pichart_member_colors, pichart_member_policies, pyramid_member_cities
@@ -19,19 +18,16 @@ dash.register_page(__name__, path='/home')
 # DESC: Statistics dashboard for the users alliance.
 
 
-leftBox = html.Fieldset(id="leftbox", children= [
-            html.Center(html.H3("MA"))],
-                        style= fieldSetFitFour
+leftBox = html.Fieldset(id="leftbox", children= [html.Center(html.H3("MA"))],
+                            className= "field-fit-four"
                        )
 
-centerBox = html.Fieldset(id="centerbox", children = [
-            html.Center(html.H3("Alliance"))],
-                          style= fieldSetFitFour
+centerBox = html.Fieldset(id="centerbox", children = [html.Center(html.H3("Alliance"))],
+                            className= "field-fit-four"
                          )
 
-rightBox = html.Fieldset(id="rightbox", children = [
-            html.Center(html.H3("IA"))],
-                         style= fieldSetFitFour
+rightBox = html.Fieldset(id="rightbox", children = [html.Center(html.H3("IA"))],
+                            className= "field-fit-four" 
                         )
 
 def layout(**kwargs):
@@ -44,7 +40,7 @@ def layout(**kwargs):
             leftBox,
             centerBox,
             rightBox
-        ], style= flexBoxRowSpaced
+        ], className= "flexbox-row-space"
             )
 ])
 
@@ -70,10 +66,10 @@ def update_leftBox(nClicks):
 
           html.Center(html.Div("Offensive/Defensive war types:")),
           html.Div(children=[
-              html.Div(pichart_war_type("⚔️", aaStats.sumOffensiveWarTypes, ['aqua', 'blue', 'darkblue']), style=fieldSetFitTwo), 
-              html.Div(pichart_war_type("🛡️", aaStats.sumDefensiveWarTypes, ['crimson', 'red', 'darkred']), style=fieldSetFitTwo)
-                            ] 
-                   ,style=flexBoxRowCenter),
+              html.Div(pichart_war_type("⚔️", aaStats.sumOffensiveWarTypes, ['aqua', 'blue', 'darkblue']), className= "field-fit-two"), 
+              html.Div(pichart_war_type("🛡️", aaStats.sumDefensiveWarTypes, ['crimson', 'red', 'darkred']), className= "field-fit-two")
+                            ], className= "flexbox-row-center"
+                  ),
 
           html.Center(html.Div("War policies:")),
           html.Center(html.Div(pichart_member_policies(aaStats.sumWarPolicies)))

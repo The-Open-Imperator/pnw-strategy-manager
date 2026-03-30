@@ -15,42 +15,36 @@ from cytograph import dash_cyto_format
 from dataflow import init_wars_nations_from_allianceSet
 from dataconvert import create_warTable_from_wars_nations, csv_str_to_set
 
-dash.register_page(__name__,
-                   path='/wars',
-                   title='Overview wars',
-                   name='Overview wars'
-                  )
+dash.register_page(__name__, path='/wars', title='Overview wars', name='Overview wars')
+# PAGE: wars
+# PATH: /wars
+# DESC: Provides an overview of all active wars as a table and graph view.
 
 
 dataSettings = html.Center(
                     html.Fieldset(children = [
-                        html.H3("Data Settings", style={'textAlign':'center', 'font-size':'34'}),
-                        
+                        html.H3("DATA Settings"), 
                         html.Div("Get all wars from"),
                         dcc.Input(id='input_alliance_list', type='text', placeholder='AA list, ex: 4221, 1312'),
-                        #dcc.Checklist(['Include applicants'], ['Include applicants'], id='include_applicants'),
-                        html.Button("Apply & Pull data", id='btn_apply')
-                                             ],
-                                  style = {'width':'400px', 'border-radius':'8px'}
+                        html.Button("APPLY", id='btn_apply', className="btn-search")
+                                             ]
                                 )
                           )
 
 settings = html.Fieldset(children = [
-                            html.H2("Settings", style={'textAlign':'center', 'font-size':'38'}),
+                            html.H2("Settings"),
                             dataSettings
                                     ],
-                                    style = {'width':'820px', 'border-radius':'16px'}
+                                    className="field-medium"
                         )
 
 def layout(**kwargs):
     logger.info("User %s accessed the wars page.", userhandler.get_username())
     return [
     navbar_div(),
-    html.H1(children='Overview Wars', style={'textAlign':'center'}),
+    html.Center(html.H1(children='Overview Wars')),
     html.Div(html.Center(settings)),
-    html.H1(children='War Table', style={'textAlign':'center'}),
     html.Div(id='wartable-div', children = [dash_table.DataTable(id='wartable')]),
-    #html.H1(children='War Graph', style={'textAlign':'center'}),
     html.Div(id='wargraph-div', children = [])
     ]
 

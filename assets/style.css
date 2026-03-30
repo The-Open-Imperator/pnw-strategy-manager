@@ -2,3 +2,119 @@
     font-family: 'Speedy';
     src: url('/assets/Speedy.ttf') format('truetype');
 }
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Speedy;
+	textAlign: center;
+	color: #313131;
+}
+
+.h-red {
+	color: #d11818
+}
+
+.h-gray {
+	color: #313131
+}
+
+.h-blue {
+	color: #1e18d1
+}
+
+
+.a-login {
+	font-family: Speedy;
+	font-size: 50;
+	padding: 8px 16px;
+	border: 0px;
+	border-radius: 6px;
+	color: #f0f0f0;
+	background-color: #313131;
+	text-decoration: none;
+	box-shadow: inset 0 0.0625em 0 0 #d11818, 0 0.0625em 0 0 #d11818, 0 0.125em 0 0 #d11818, 0 0.25em 0 0 #d11818, 0 0.3125em 0 0 #d11818, 0 0.375em 0 0 #d11818, 0 0.425em 0 0 #d11818, 0 0.425em 0.5em 0 #d11818;
+}
+.a-login:active {
+	translate: 0 0.225em;
+  	box-shadow: inset 0 0.03em 0 0 #d11818, 0 0.03em 0 0 #d11818,
+    		0 0.0625em 0 0 #d11818, 0 0.125em 0 0 #d11818, 0 0.125em 0 0 #d11818,
+    		0 0.2em 0 0 #d11818, 0 0.225em 0 0 #d11818, 0 0.225em 0.375em 0 #d11818;
+}
+
+.btn-search {
+	font-family: Speedy;
+	font-size: 50;
+	padding: 6px 12px;
+	border: 0px;
+	border-radius: 6px;
+	color: #f0f0f0;
+	background-color: #313131;
+	box-shadow: inset 0 0.0625em 0 0 #d11818, 0 0.0625em 0 0 #d11818, 0 0.125em 0 0 #d11818, 0 0.25em 0 0 #d11818, 0 0.3125em 0 0 #d11818, 0 0.375em 0 0 #d11818, 0 0.425em 0 0 #d11818, 0 0.425em 0.5em 0 #d11818;
+}
+.btn-search:active {
+	translate: 0 0.225em;
+  	box-shadow: inset 0 0.03em 0 0 #d11818, 0 0.03em 0 0 #d11818,
+    		0 0.0625em 0 0 #d11818, 0 0.125em 0 0 #d11818, 0 0.125em 0 0 #d11818,
+    		0 0.2em 0 0 #d11818, 0 0.225em 0 0 #d11818, 0 0.225em 0.375em 0 #d11818;
+}
+
+
+fieldset {
+	color: #313131;
+	border-radius: 8px;
+}
+
+.field-small {
+	width: 200px;
+	border-radius: 6px
+	color: #313131
+}
+.field-medium {
+	width: 400px;
+	border-radius: 8px;
+	color: #313131
+}
+.field-big {
+	width: 800px;
+	border-radius: 16px;
+	color: #313131:
+}
+
+.field-fit-one {
+	width: 100%;
+}
+.field-fit-two{
+	width: 50%;
+}
+.field-fit-three{
+	width: 33%;
+}
+.field-fit-four{
+	width: 25%;
+}
+.field-fit-five{
+	width: 20%;
+}
+.field-fit-six{
+	width: 16%;
+}
+
+.flexbox-row-center{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.flexbox-row-space{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+.flexbox-col-center{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.flexbox-col-space{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
