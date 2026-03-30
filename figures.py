@@ -78,14 +78,14 @@ def pyramid_member_cities(data: dict):
                          x=list(data.values()),
                          name='Cities',
                          orientation='h',
-                         marker_color='red'
+                         marker_color='#d11818'
                         )
                  )
     fig.add_trace(go.Bar(y=list(dataCopy.keys()),
                          x=list(dataCopy.values()),
                          name='Cities',
                          orientation='h',
-                         marker_color='red'
+                         marker_color='#d11818'
                         )
                  )
     
@@ -101,6 +101,7 @@ def pyramid_member_cities(data: dict):
             barmode='relative',
             bargap = 0.0,
             bargroupgap = 0,
-            barcornerradius=5
+            barcornerradius=5,
+            plot_bgcolor='#ffffff'
                      )
     return dcc.Graph(figure=fig)
