@@ -1,6 +1,7 @@
 import dash
 from dash import Dash, html, dcc
 
+
 # DESC: Defines the navigation bar rendered on top of the pages.
 
 def navbar_div():

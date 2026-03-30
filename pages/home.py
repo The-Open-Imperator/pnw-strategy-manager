@@ -4,6 +4,7 @@ from dash import html, callback, Output, Input
 from styles import *
 
 from .nav_bar import navbar_div
+import userhandler
 
 from dataconvert import AllianceStats
 from figures import vertical_progress_bar, pichart_war_type, pichart_member_colors, pichart_member_policies, pyramid_member_cities
@@ -27,10 +28,11 @@ rightBox = html.Fieldset(id="rightbox", children = [
                         )
 
 def layout(**kwargs):
+    user = userhandler.UserData()
     return html.Div([
     navbar_div(),
     html.Div(id="dummy-div"),
-    html.Center(html.H1('Home page')),
+    html.Center(html.H1(user.title + " " + user.username)),
     html.Div(children= [
             leftBox,
             centerBox,
@@ -46,7 +48,8 @@ def layout(**kwargs):
     Input('dummy-div', 'n_clicks')
 )
 def update_leftBox(nClicks):
-    aaStats = AllianceStats({4221})
+    user = userhandler.UserData()
+    aaStats = AllianceStats({user.alliance})
 
     pOff = int((aaStats.sumOffensiveWars / (aaStats.sumOffensiveWars + aaStats.sumDefensiveWars)) * 100)
     pDef = int((aaStats.sumDefensiveWars / (aaStats.sumOffensiveWars + aaStats.sumDefensiveWars)) * 100)
