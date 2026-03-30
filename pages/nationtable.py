@@ -1,6 +1,11 @@
 import dash
 from dash import Dash, dash_table, html, dcc, callback, Output, Input, State
 
+import logging
+logger = logging.getLogger("MAINLOG")
+
+import userhandler
+
 from tables import dash_nationtable_format
 
 from dataflow import init_nations_from_allianceSet
@@ -48,6 +53,7 @@ settings = html.Fieldset(children = [
                         )
 
 def layout(**kwargs):
+    logger.info("User %s accessed the nations page.", userhandler.get_username())
     return [
     navbar_div(),
     html.H1(children='Nation Table', style={'textAlign':'center', 'font-size':'42'}),
@@ -78,6 +84,7 @@ def update_enemytable(n_clicks, allianceList, filter_list):
     if ('exclude def slot >2' in filter_list):
         excludeFilter['excludeNoDefSlot'] = True
 
+    logger.info("Nation Search for %s, IDs=(%s), FILTER=(%s)", userhandler.get_username(), allianceList, excludeFilter)
     nations = init_nations_from_allianceSet(csv_str_to_set(allianceList), excludeFilter)
     
     return [dash_nationtable_format(nations)]

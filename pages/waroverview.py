@@ -2,6 +2,11 @@ import dash
 from dash import Dash, dash_table, html, dcc, callback, Output, Input, State
 import dash_cytoscape
 
+import logging
+logger = logging.getLogger("MAINLOG")
+
+import userhandler
+
 from .nav_bar import navbar_div
 
 from tables import dash_wartable_format
@@ -38,6 +43,7 @@ settings = html.Fieldset(children = [
                         )
 
 def layout(**kwargs):
+    logger.info("User %s accessed the wars page.", userhandler.get_username())
     return [
     navbar_div(),
     html.H1(children='Overview Wars', style={'textAlign':'center'}),
@@ -57,6 +63,7 @@ def layout(**kwargs):
     prevent_initial_call=True
 )
 def update_data(n_clicks, allianceList):
+    logger.info("Wars overview for %s, IDs=(%s)", userhandler.get_username(), allianceList)
     wars, nations = init_wars_nations_from_allianceSet(csv_str_to_set(allianceList))
     warTable = create_warTable_from_wars_nations(wars, nations)
 

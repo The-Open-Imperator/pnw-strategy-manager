@@ -1,6 +1,9 @@
 import dash
 from dash import html, callback, Output, Input
 
+import logging
+logger = logging.getLogger("MAINLOG")
+
 from styles import *
 
 from .nav_bar import navbar_div
@@ -10,6 +13,10 @@ from dataconvert import AllianceStats
 from figures import vertical_progress_bar, pichart_war_type, pichart_member_colors, pichart_member_policies, pyramid_member_cities
 
 dash.register_page(__name__, path='/home')
+# PAGE: home
+# PATH: /home
+# ACCESS: AUTHENTICATED
+# DESC: Statistics dashboard for the users alliance.
 
 
 leftBox = html.Fieldset(id="leftbox", children= [
@@ -49,6 +56,8 @@ def layout(**kwargs):
 )
 def update_leftBox(nClicks):
     user = userhandler.UserData()
+    logger.info("User %s accessed home.", user.username)
+
     aaStats = AllianceStats({user.alliance})
 
     pOff = int((aaStats.sumOffensiveWars / (aaStats.sumOffensiveWars + aaStats.sumDefensiveWars)) * 100)
