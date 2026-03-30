@@ -2,6 +2,8 @@ import dash
 from dash import Dash, dash_table, html, dcc, callback, Output, Input, State
 import dash_cytoscape
 
+from .nav_bar import navbar_div
+
 from tables import dash_wartable_format
 from cytograph import dash_cyto_format
 
@@ -35,7 +37,9 @@ settings = html.Fieldset(children = [
                                     style = {'width':'820px', 'border-radius':'16px'}
                         )
 
-layout = [
+def layout(**kwargs):
+    return [
+    navbar_div(),
     html.H1(children='Overview Wars', style={'textAlign':'center'}),
     html.Div(html.Center(settings)),
     html.H1(children='War Table', style={'textAlign':'center'}),

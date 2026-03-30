@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="150mm"
+   height="50mm"
+   viewBox="0 0 150 50"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     style="display:inline">
+    <g
+       id="g1"
+       transform="translate(0,-1.8703422)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.9878px;font-family:'SPACE ARMOR';-inkscape-font-specification:'SPACE ARMOR';letter-spacing:1.59259px;writing-mode:lr-tb;direction:ltr;fill:#313131;fill-opacity:1;stroke-width:0.286394"
+         x="35.225525"
+         y="27.339582"
+         id="text1"
+         transform="scale(0.99188007,1.0081864)"><tspan
+           id="tspan1"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.9878px;font-family:Mokoto;-inkscape-font-specification:'Mokoto, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:1.59259px;fill:#313131;fill-opacity:1;stroke-width:0.286394"
+           x="35.225525"
+           y="27.339582">SPECTRE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:'SPACE ARMOR';-inkscape-font-specification:'SPACE ARMOR';letter-spacing:0.769938px;writing-mode:lr-tb;direction:ltr;fill:#d11818;fill-opacity:1;stroke-width:0.264583"
+         x="9.3512859"
+         y="37.937737"
+         id="text2"><tspan
+           id="tspan2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:Speedy;-inkscape-font-specification:Speedy;letter-spacing:0.769938px;fill:#d11818;fill-opacity:1;stroke-width:0.264583"
+           x="9.3512859"
+           y="37.937737"
+           rotate="0 0 0 0 0 0 0 0 0 0 0 0">ALLIANCE MANAGER</tspan></text>
+    </g>
+  </g>
+</svg>

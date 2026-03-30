@@ -7,6 +7,7 @@ from dataflow import init_nations_from_allianceSet
 from dataconvert import csv_str_to_set
 
 from utils import DEFAULT_NATION_FILTER
+from .nav_bar import navbar_div
 
 dash.register_page(__name__, 
                    path='/nations',
@@ -46,7 +47,9 @@ settings = html.Fieldset(children = [
                                     style = {'width':'820px', 'border-radius':'16px'}
                         )
 
-layout = [
+def layout(**kwargs):
+    return [
+    navbar_div(),
     html.H1(children='Nation Table', style={'textAlign':'center', 'font-size':'42'}),
     html.Div(html.Center(settings)),
     html.Div(id='enemytable-div', children = []),

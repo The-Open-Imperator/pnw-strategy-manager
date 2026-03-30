@@ -3,6 +3,12 @@ from dash import html
 
 # Default input styles
 
+## Default Button
+
+
+## Default A
+loginButton = { 'font-family':'Speedy', 'font-size':'50', 'padding':'8px 16px', 'border':'0px', 'border-radius':'6px', 'color':'#f0f0f0', 'background-color':'#313131', 'text-decoration':'none', 'box-shadow':'inset 0 0.0625em 0 0 #d11818, 0 0.0625em 0 0 #d11818, 0 0.125em 0 0 #d11818, 0 0.25em 0 0 #d11818, 0 0.3125em 0 0 #d11818, 0 0.375em 0 0 #d11818, 0 0.425em 0 0 #d11818, 0 0.425em 0.5em 0 #d11818'}
+
 
 # Default output styles
 

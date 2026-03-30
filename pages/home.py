@@ -3,10 +3,12 @@ from dash import html, callback, Output, Input
 
 from styles import *
 
+from .nav_bar import navbar_div
+
 from dataconvert import AllianceStats
 from figures import vertical_progress_bar, pichart_war_type, pichart_member_colors, pichart_member_policies, pyramid_member_cities
 
-dash.register_page(__name__, path='/')
+dash.register_page(__name__, path='/home')
 
 
 leftBox = html.Fieldset(id="leftbox", children= [
@@ -24,7 +26,9 @@ rightBox = html.Fieldset(id="rightbox", children = [
                          style= fieldSetFitFour
                         )
 
-layout = html.Div([
+def layout(**kwargs):
+    return html.Div([
+    navbar_div(),
     html.Div(id="dummy-div"),
     html.Center(html.H1('Home page')),
     html.Div(children= [
