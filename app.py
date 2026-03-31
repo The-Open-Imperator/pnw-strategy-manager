@@ -20,10 +20,18 @@ form = logging.Formatter(
 console_handler.setFormatter(form)
 file_handler.setFormatter(form)
 
+## LOAD ENV VARS
+from dotenv import load_dotenv
+load_dotenv()
 
-VALID_USER_PASS_PAIR = {'Jewma':'test'}
 
-app = Dash(__name__, use_pages=True)
+VALID_USER_PASS_PAIR = {'Jewma':'test', 'Toxic':'tset'}
+
+# With page validation
+#app = Dash(__name__, use_pages=True)
+# Without page validation
+app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
+
 app._favicon = ("/assets/favicon.ico")
 
 auth = dash_auth.BasicAuth(app,
@@ -34,4 +42,4 @@ auth = dash_auth.BasicAuth(app,
 
 if __name__ == '__main__':
     logger.info("Startup DONE, ready to serve Spectre.")
-    app.run(debug=True)
+    app.run() #(debug=True)
