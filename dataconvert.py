@@ -1,5 +1,3 @@
-import pandas as pd
-
 from utils import DEFAULT_NO_ALLIANCE, DEFAULT_WAR_POLICIES_DICT, DEFAULT_DOMESTIC_POLICIES_DICT, DEFAULT_COLORS_DICT, DEFAULT_WAR_TYPES_DICT
 
 from dataflow import get_alliance_stats

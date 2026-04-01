@@ -1,0 +1,49 @@
+services:
+  web:
+    container_name: sam-web
+    image: sam-web-image
+    ports:
+      - "4221:8000"
+    environment:
+      - DATABASE_URL=postgres://db:5432/<DBNAME>
+      - APIKEY=<GAME-API_KEY>
+    volumes:
+        - SAM_data:/logs
+        - type: bind
+          source: ./        # compose up must be executed from the projects home directory
+          target: /sam
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 512M
+
+  pgadmin:
+    container_name: sam-pg-admin
+    image: dpage/pgadmin4:latest
+    # restart: always
+    ports:
+      - "8888:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=<PGADMIN-EMAIL>
+      - PGADMIN_DEFAULT_PASSWORD=<PGADMIN_PASSWORD>
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  db:
+    container_name: sam-db
+    image: postgres:latest
+    # restart: always
+    shm_size: 128mb
+    environment:
+      - POSTGRES_DB=<DBNAME>
+      - POSTGRES_PASSWORD=<DBSECRET>
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  pgadmin_data:
+  postgres_data:
+  SAM_data:

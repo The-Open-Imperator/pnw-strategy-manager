@@ -1,3 +1,4 @@
 .env
 __pycache__
 SAM.log
+docker-compose.yml

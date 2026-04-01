@@ -9,7 +9,7 @@ logger = logging.getLogger("MAINLOG")
 logger.setLevel("INFO")
 
 console_handler = logging.StreamHandler()
-file_handler = logging.FileHandler("SAM.log", mode="a", encoding="utf-8")
+file_handler = logging.FileHandler("./SAM.log", mode="a", encoding="utf-8")
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
@@ -19,10 +19,6 @@ form = logging.Formatter(
         datefmt = "%Y-%m-%d %H:%M:%S"                        )
 console_handler.setFormatter(form)
 file_handler.setFormatter(form)
-
-## LOAD ENV VARS
-from dotenv import load_dotenv
-load_dotenv()
 
 
 VALID_USER_PASS_PAIR = {'Jewma':'test', 'Toxic':'tset'}
@@ -39,7 +35,8 @@ auth = dash_auth.BasicAuth(app,
                            secret_key="ASD3dd0a0j9sda#s",
                            public_routes=["/", "/assets/Speedy.ttf", "/assets/styles.css", "/assets/SAM-Logo-Text.svg", "/assets/favicon.ico"])
 
+logger.info("Successfully initialized SAM web.")
 
-if __name__ == '__main__':
-    logger.info("Startup DONE, ready to serve Spectre.")
-    app.run() #(debug=True)
+#if __name__ == '__main__':
+#    logger.info("Startup DONE, ready to serve Spectre.")
+#    app.run() #(debug=True)

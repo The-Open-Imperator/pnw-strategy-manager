@@ -2,4 +2,4 @@ dash
 dash-cytoscape
 dash-auth
 gunicorn
-python-dotenv
+psycopg[binary]
