@@ -42,6 +42,10 @@ Start the container stack which includes the Spectre Alliance Manager web server
 ```
 sudo docker-compose up
 ```
+Quick restart of just the web container and attach a console.
+```
+sudo docker restart sam-web && sudo docker attach sam-web
+```
 
 ### Production setup
 To access SAM from outside of a local network, the following services need to be set up.

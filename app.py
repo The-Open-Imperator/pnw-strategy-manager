@@ -21,8 +21,6 @@ console_handler.setFormatter(form)
 file_handler.setFormatter(form)
 
 
-VALID_USER_PASS_PAIR = {'Jewma':'test', 'Toxic':'tset'}
-
 # With page validation
 #app = Dash(__name__, use_pages=True)
 # Without page validation
@@ -30,8 +28,10 @@ app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 
 app._favicon = ("/assets/favicon.ico")
 
+
+from userhandler import is_valid_username_password
 auth = dash_auth.BasicAuth(app,
-                           VALID_USER_PASS_PAIR,
+                           auth_func=is_valid_username_password,
                            secret_key="ASD3dd0a0j9sda#s",
                            public_routes=["/", "/assets/Speedy.ttf", "/assets/styles.css", "/assets/SAM-Logo-Text.svg", "/assets/favicon.ico"])
 
