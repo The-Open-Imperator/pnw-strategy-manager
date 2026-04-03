@@ -1,7 +1,9 @@
 from flask import request
 
+from errorstates import UserProfileLoadSTATUS
+
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("MAINLOG")
 
 import db_connector
 
@@ -18,7 +20,7 @@ def get_username():
 
 
 def is_valid_username_password(username: str, password: str):
-    if db_connector.select_username_password(username, password) == None:
+    if db_connector.fetch_username_password_raw(username, password) == None:
         return False
     else:
         return True
@@ -29,13 +31,13 @@ class UserData:
         self.username = get_username()
         if self.username == None:
             logger.error("userhandler.UserData -> tried to load user profile for an unauthenticaed user!")
-            self.failed = True
+            self.status = UserProfileLoadSTATUS.UNAUTH
             return
 
-        userprofile = db_connector.get_userprofile(self.username)
+        userprofile = db_connector.fetch_userprofile_raw(self.username)
         if userprofile == None:
-            logger.error("userhandler.UserData -> db returned no user profile for an authenticated user!")
-            self.failed = True
+            logger.error(f"userhandler.UserData -> db returned no user profile for user={self.username}!")
+            self.status = UserProfileLoadSTATUS.DBNOPROFILE
             return
         self.userid = userprofile[0]
         #self.username = userprofile[1]
@@ -43,4 +45,4 @@ class UserData:
         self.allianceid = userprofile[3]
         self.title = userprofile[4]
 
-        self.failed = False
+        self.status = UserProfileLoadSTATUS.SUCCESS

@@ -6,14 +6,14 @@ import logging
 logger = logging.getLogger("MAINLOG")
 
 import userhandler
-from errorstates import UserProfileLoadSTATUS
+from errorstates import UserProfileLoadSTATUS, GameApiReturnSTATUS
 
 from .nav_bar import navbar_div
 
 from tables import dash_wartable_format
 from cytograph import dash_cyto_format
 
-from dataflow import init_wars_nations_from_allianceSet
+from dataflow import WarsNationsFromAAIDSet
 from dataconvert import create_warTable_from_wars_nations, csv_str_to_set
 
 dash.register_page(__name__, path='/wars', title='Overview wars', name='Overview wars')
@@ -59,8 +59,13 @@ def layout(**kwargs):
 )
 def update_data(n_clicks, allianceList):
     logger.info("Wars overview for %s, IDs=(%s)", userhandler.get_username(), allianceList)
-    wars, nations = init_wars_nations_from_allianceSet(csv_str_to_set(allianceList))
-    warTable = create_warTable_from_wars_nations(wars, nations)
 
-    return [dash_wartable_format(warTable), dash_cyto_format(wars, nations)]
+    wnDat = WarsNationsFromAAIDSet(csv_str_to_set(allianceList))
+    if (wnDat.status.value):
+        logger.error("[ERR_{%s}] in Wars overview for %s, IDs=(%s)", wnDat.status ,userhandler.get_username(), allianceList)
+        errDiv = html.Center(html.Div(f"[ERR_{wnDat.status}]"))
+        return [errDiv, errDiv]
+
+    warTable = create_warTable_from_wars_nations(wnDat.wars, wnDat.nations)
+    return [dash_wartable_format(warTable), dash_cyto_format(wnDat.wars, wnDat.nations)]
 

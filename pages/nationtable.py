@@ -5,11 +5,11 @@ import logging
 logger = logging.getLogger("MAINLOG")
 
 import userhandler
-from errorstates import UserProfileLoadSTATUS
+from errorstates import UserProfileLoadSTATUS, GameApiReturnSTATUS
 
 from tables import dash_nationtable_format
 
-from dataflow import init_nations_from_allianceSet
+from dataflow import NationsFromAAIDSet
 from dataconvert import csv_str_to_set
 
 from utils import DEFAULT_NATION_FILTER
@@ -84,6 +84,11 @@ def update_enemytable(n_clicks, allianceList, filter_list):
         excludeFilter['excludeNoDefSlot'] = True
 
     logger.info("Nation Search for %s, IDs=(%s), FILTER=(%s)", userhandler.get_username(), allianceList, excludeFilter)
-    nations = init_nations_from_allianceSet(csv_str_to_set(allianceList), excludeFilter)
     
-    return [dash_nationtable_format(nations)]
+    allianceSet = csv_str_to_set(allianceList)
+    nationDat = NationsFromAAIDSet(allianceSet, excludeFilter)
+    if (nationDat.status.value):
+        logger.error(f"[ERR_{nationDat.status}] in Nation Search for %s, IDs=(%s), FILTER=(%s)", userhandler.get_username(), allianceList, excludeFilter)
+        return [html.Center(html.Div(f"[ERR_{nationDat.status}]"))]
+
+    return [dash_nationtable_format(nationDat.nations)]

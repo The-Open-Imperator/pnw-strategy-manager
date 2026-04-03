@@ -7,7 +7,7 @@ logging.getLogger("psycopg").setLevel(logging.DEBUG)
 
 DBCONSTR = "postgresql://postgres:secret@sam-db/sam-user-data"
 
-def select_username_password(username: str, password: str):
+def fetch_username_password_raw(username: str, password: str):
     with psycopg.connect(DBCONSTR) as connection:
         with connection.cursor() as cur:
             cur.execute(
@@ -18,7 +18,7 @@ def select_username_password(username: str, password: str):
             """, (username, password))
             return cur.fetchone()
 
-def get_userprofile(username: str):
+def fetch_userprofile_raw(username: str):
     with psycopg.connect(DBCONSTR) as connection:
         with connection.cursor() as cur:
             cur.execute(
