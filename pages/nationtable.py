@@ -5,6 +5,7 @@ import logging
 logger = logging.getLogger("MAINLOG")
 
 import userhandler
+from errorstates import UserProfileLoadSTATUS
 
 from tables import dash_nationtable_format
 

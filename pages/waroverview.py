@@ -6,6 +6,7 @@ import logging
 logger = logging.getLogger("MAINLOG")
 
 import userhandler
+from errorstates import UserProfileLoadSTATUS
 
 from .nav_bar import navbar_div
 

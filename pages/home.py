@@ -32,8 +32,8 @@ rightBox = html.Fieldset(id="rightbox", children = [html.Center(html.H3("IA"))],
 
 def layout(**kwargs):
     user = userhandler.UserData()
-    if user.failed == True:
-        return html.Div("Something went wrong when loading the user profile.")
+    if user.status.value:
+        return html.Div(f"[ERR_{user.status}] Something went wrong when loading the user profile.")
     return html.Div([
     navbar_div(),
     html.Div(id="dummy-div"),
@@ -54,8 +54,8 @@ def layout(**kwargs):
 )
 def update_leftBox(nClicks):
     user = userhandler.UserData()
-    if user.failed == True:
-        errDiv = html.Div("Userprofile Error")
+    if user.status.value:
+        errDiv = html.Div(f"[ERR_{user.status}] Userprofile Error!")
         return [errDiv, errDiv, errDiv]
     logger.info("User %s accessed home.", user.username)
 
