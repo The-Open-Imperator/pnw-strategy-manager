@@ -62,7 +62,7 @@ def update_data(n_clicks, allianceList):
 
     wnDat = WarsNationsFromAAIDSet(csv_str_to_set(allianceList))
     if (wnDat.status.value):
-        logger.error("[ERR_{%s}] in Wars overview for %s, IDs=(%s)", wnDat.status ,userhandler.get_username(), allianceList)
+        logger.error("[ERR_%s] in Wars overview for %s, IDs=(%s)", wnDat.status ,userhandler.get_username(), allianceList)
         errDiv = html.Center(html.Div(f"[ERR_{wnDat.status}]"))
         return [errDiv, errDiv]
 

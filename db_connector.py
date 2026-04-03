@@ -1,9 +1,9 @@
 import psycopg
 
-import logging
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s")
+#import logging
+#logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s")
 
-logging.getLogger("psycopg").setLevel(logging.DEBUG)
+#logging.getLogger("psycopg").setLevel(logging.DEBUG)
 
 DBCONSTR = "postgresql://postgres:secret@sam-db/sam-user-data"
 

@@ -88,7 +88,7 @@ def update_enemytable(n_clicks, allianceList, filter_list):
     allianceSet = csv_str_to_set(allianceList)
     nationDat = NationsFromAAIDSet(allianceSet, excludeFilter)
     if (nationDat.status.value):
-        logger.error(f"[ERR_{nationDat.status}] in Nation Search for %s, IDs=(%s), FILTER=(%s)", userhandler.get_username(), allianceList, excludeFilter)
+        logger.error("[ERR_%s] in Nation Search for %s, IDs=(%s), FILTER=(%s)", nationDat.status, userhandler.get_username(), allianceList, excludeFilter)
         return [html.Center(html.Div(f"[ERR_{nationDat.status}]"))]
 
     return [dash_nationtable_format(nationDat.nations)]
